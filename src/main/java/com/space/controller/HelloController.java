@@ -1,5 +1,8 @@
 package com.space.controller;
 
+import com.space.data.Account;
+import com.space.data.repository.AccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,9 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
+	@Autowired
+	private AccountRepository accountRepository;
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String get()
+	public Account get()
 	{
-		return "hello";
+		Account account = new Account();
+		account.setEmail("kiberaction@yandex.ru");
+		account.setLogin("login");
+		account.setPassword("password");
+		account = accountRepository.save(account);
+		return accountRepository.findOne(account.getId());
 	}
 }
